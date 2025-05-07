@@ -189,9 +189,8 @@
     @apply bg-background text-foreground;
   }
 }
-* {
-  font-family: system-ui;
-  font-weight: 700;
+* body {
+  font-family: var(--font-sans, system-ui);
 }
 
 .home-parent {
