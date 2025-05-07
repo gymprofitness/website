@@ -42,6 +42,7 @@ function AuthContent() {
   );
 }
 
+// Wrap the component that uses useSearchParams in its own component
 function Homepage() {
   const [openSheet, setOpenSheet] = React.useState(false);
 
