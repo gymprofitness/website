@@ -14,14 +14,37 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { SignUp, SignIn } from "@clerk/nextjs";
-import React from "react";
+import React, { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import PlansList from "./_components/plans-list";
 
+// Create a separate component for parts that use useSearchParams
+function AuthContent() {
+  const searchParams = useSearchParams();
+  const form = searchParams.get("form");
+  
+  return (
+    <div className="flex items-center justify-center w-full">
+      {form === "sign-up" ? (
+        <SignUp
+          routing="hash"
+          signInUrl="/?form=sign-in"
+          fallbackRedirectUrl={"/account"}
+        />
+      ) : (
+        <SignIn
+          routing="hash"
+          signUpUrl="/?form=sign-up"
+          fallbackRedirectUrl={"/account"}
+        />
+      )}
+    </div>
+  );
+}
+
 function Homepage() {
   const [openSheet, setOpenSheet] = React.useState(false);
-  const queryStrings = useSearchParams();
-  const form = queryStrings.get("form");
+
   return (
     <div className="home-parent py-10 px-10">
       <div className="flex justify-between items-centre">
@@ -91,24 +114,13 @@ function Homepage() {
             <SheetTitle></SheetTitle>
           </SheetHeader>
 
-          <div className="flex items-center justify-center w-full">
-            {form === "sign-up" ? (
-              <SignUp
-                routing="hash"
-                signInUrl="/?form=sign-in"
-                fallbackRedirectUrl={"/account"}
-              />
-            ) : (
-              <SignIn
-                routing="hash"
-                signUpUrl="/?form=sign-up"
-                fallbackRedirectUrl={"/account"}
-              />
-            )}
-          </div>
+          <Suspense fallback={<div>Loading...</div>}>
+            <AuthContent />
+          </Suspense>
         </SheetContent>
       </Sheet>
     </div>
   );
 }
+
 export default Homepage;
