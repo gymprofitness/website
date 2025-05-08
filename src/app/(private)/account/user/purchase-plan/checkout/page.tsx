@@ -110,7 +110,12 @@ function CheckoutPage() {
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
             No Plan Selected
           </h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            No Plan Selected
+          </h2>
           <p className="text-gray-600 mb-6">
+            You haven't selected a plan yet. Please go back to the plans page
+            and choose a plan.
             You haven't selected a plan yet. Please go back to the plans page
             and choose a plan.
           </p>
@@ -126,6 +131,7 @@ function CheckoutPage() {
     <div className="max-w-4xl mx-auto px-4">
       <PageTitle title="Complete Your Purchase" />
 
+
       <div className="mt-8">
         {/* Order Summary */}
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
@@ -136,7 +142,14 @@ function CheckoutPage() {
             <p className="text-sm text-gray-500">
               Review your subscription details
             </p>
+            <h2 className="text-lg font-semibold text-gray-900 mb-1">
+              Order Summary
+            </h2>
+            <p className="text-sm text-gray-500">
+              Review your subscription details
+            </p>
           </div>
+
 
           <div className="p-6">
             <div className="flex items-center mb-6">
@@ -150,8 +163,15 @@ function CheckoutPage() {
                 <p className="text-sm text-gray-500">
                   {selectedPaymentPlan.paymentPlan?.planName} Plan
                 </p>
+                <h3 className="font-medium text-gray-900">
+                  {selectedPaymentPlan.mainPlan?.name}
+                </h3>
+                <p className="text-sm text-gray-500">
+                  {selectedPaymentPlan.paymentPlan?.planName} Plan
+                </p>
               </div>
             </div>
+
 
             <div className="space-y-4 mb-6">
               <div className="flex items-center justify-between py-3 border-b border-gray-100">
@@ -162,7 +182,11 @@ function CheckoutPage() {
                 <span className="font-medium text-gray-900">
                   ₹{selectedPaymentPlan.paymentPlan?.price}
                 </span>
+                <span className="font-medium text-gray-900">
+                  ₹{selectedPaymentPlan.paymentPlan?.price}
+                </span>
               </div>
+
 
               <div className="flex items-center justify-between py-3 border-b border-gray-100">
                 <div className="flex items-center text-gray-700">
@@ -172,7 +196,11 @@ function CheckoutPage() {
                 <span className="font-medium text-gray-900">
                   {selectedPaymentPlan.paymentPlan?.duration} days
                 </span>
+                <span className="font-medium text-gray-900">
+                  {selectedPaymentPlan.paymentPlan?.duration} days
+                </span>
               </div>
+
 
               <div className="flex items-center justify-between py-3">
                 <div className="flex items-center text-gray-700">
@@ -187,6 +215,7 @@ function CheckoutPage() {
                 />
               </div>
 
+
               <div className="flex items-center justify-between py-3">
                 <div className="flex items-center text-gray-700">
                   <ArrowRight className="h-4 w-4 mr-2" />
@@ -196,9 +225,13 @@ function CheckoutPage() {
               </div>
             </div>
 
+
             <div className="pt-4 border-t border-gray-100">
               <div className="flex justify-between items-center mb-4">
                 <span className="font-medium text-gray-700">Total Amount</span>
+                <span className="text-xl font-bold text-gray-900">
+                  ₹{selectedPaymentPlan.paymentPlan?.price}
+                </span>
                 <span className="text-xl font-bold text-gray-900">
                   ₹{selectedPaymentPlan.paymentPlan?.price}
                 </span>
@@ -217,7 +250,7 @@ function CheckoutPage() {
                   <>Pay Now</>
                 )}
               </Button>
-              
+
               {showCheckoutForm && clientSecret && (
                 <Elements stripe={stripePromise} options={options}>
                   <CheckoutForm
@@ -233,6 +266,16 @@ function CheckoutPage() {
                     className="h-5 w-5 text-gray-400"
                     fill="currentColor"
                     viewBox="0 0 20 20"
+                  />
+                    <path
+                      fillRule="evenodd"
+                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                      clipRule="evenodd"
+                    />
+                  <svg
+                    className="h-5 w-5 text-gray-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
                   >
                     <path
                       fillRule="evenodd"
@@ -244,6 +287,8 @@ function CheckoutPage() {
                 </div>
               </div>
               <p className="text-xs text-center text-gray-500 mt-4">
+                By proceeding with the payment, you agree to our terms and
+                conditions.
                 By proceeding with the payment, you agree to our terms and
                 conditions.
               </p>
