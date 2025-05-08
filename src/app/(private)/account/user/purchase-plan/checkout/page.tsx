@@ -69,7 +69,7 @@ function CheckoutPage() {
     //passing the client secret to the stripe component
     clientSecret: clientSecret!,
   };
-
+// stripe payment
   const onPaymentSuccess = async (paymentId: string) => {
     try {
       const payload = {
