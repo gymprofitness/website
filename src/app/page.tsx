@@ -22,7 +22,7 @@ import PlansList from "./_components/plans-list";
 function AuthContent() {
   const searchParams = useSearchParams();
   const form = searchParams.get("form");
-  
+
   return (
     <div className="flex items-center justify-center w-full">
       {form === "sign-up" ? (
@@ -42,7 +42,6 @@ function AuthContent() {
   );
 }
 
-// Wrap the component that uses useSearchParams in its own component
 function Homepage() {
   const [openSheet, setOpenSheet] = React.useState(false);
 
