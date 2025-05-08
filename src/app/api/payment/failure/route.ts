@@ -1,37 +1,45 @@
-import { NextRequest, NextResponse } from "next/server";
+// app/api/payment/success/route.ts
+import { NextRequest } from "next/server";
 
-// Force dynamic evaluation of the route
 export const dynamic = 'force-dynamic';
 
-// Handle OPTIONS preflight requests
-export async function OPTIONS(request: NextRequest) {
-  return new Response(null, {
-    status: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-    }
-  });
-}
-
-// Handle POST requests from PayU
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const txnid = formData.get("txnid") as string;
-    const error = formData.get("error") as string;
+    const status = formData.get("status") as string;
+    const mihpayid = formData.get("mihpayid") as string;
     
-    // Here you would update your database with payment failure
+    // Here you would update your database with payment status
+    // await updatePaymentInDatabase(txnid, status, mihpayid);
     
-    return NextResponse.redirect(
-      new URL(`/account/user/purchase-plan/payment-status?status=failure&txnid=${txnid}&error=${error}`, request.url)
-    );
+    // Return a 302 redirect to change from POST to GET
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: `/account/user/purchase-plan/payment-status?status=${status || "success"}&txnid=${txnid}`
+      }
+    });
   } catch (error: any) {
-    console.error("Payment failure handling error:", error);
+    console.error("Payment success handling error:", error);
     
-    return NextResponse.redirect(
-      new URL(`/account/user/purchase-plan/payment-status?status=error&message=${encodeURIComponent(error.message)}`, request.url)
-    );
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: `/account/user/purchase-plan/payment-status?status=error&message=${encodeURIComponent(error.message)}`
+      }
+    });
   }
+}
+
+// Also implement OPTIONS for CORS preflight requests
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    }
+  });
 }

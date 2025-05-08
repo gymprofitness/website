@@ -2,8 +2,8 @@
 import crypto from "crypto";
 
 // PayU configuration
-const MERCHANT_KEY = process.env.PAYU_MERCHANT_KEY || "";
-const MERCHANT_SALT = process.env.PAYU_MERCHANT_SALT || "";
+const MERCHANT_KEY = process.env.PAYU_MERCHANT_KEY || "gSo7n1";
+const MERCHANT_SALT = process.env.PAYU_MERCHANT_SALT || "your_salt_here";
 const ENVIRONMENT = process.env.NODE_ENV === "production" ? "LIVE" : "TEST";
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://trackyfy.in.net";
 
@@ -30,8 +30,8 @@ export const initiatePayuPayment = async (paymentData: {
       firstname: paymentData.firstname,
       email: paymentData.email,
       phone: paymentData.phone,
-      surl: `${BASE_URL}/api/payment/success`,
-      furl: `${BASE_URL}/api/payment/failure`,
+      surl: `${BASE_URL}/account/user/purchase-plan/payment-success`,
+      furl: `${BASE_URL}/account/user/purchase-plan/payment-failure`,
     };
 
     // Generate hash
@@ -43,27 +43,6 @@ export const initiatePayuPayment = async (paymentData: {
         ...data,
         hash,
         environment: ENVIRONMENT,
-      },
-    };
-  } catch (error: any) {
-    return {
-      success: false,
-      message: error.message,
-    };
-  }
-};
-
-export const verifyPayuPayment = async (txnid: string) => {
-  try {
-    // For a real implementation, you would verify with PayU API
-    // This is a simplified version
-    return {
-      success: true,
-      data: {
-        txnid,
-        status: "success",
-        amount: 0,
-        mode: "Credit Card"
       },
     };
   } catch (error: any) {

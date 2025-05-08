@@ -1,4 +1,7 @@
+// next.config.ts
 import type { NextConfig } from "next";
+import fs from 'fs';
+import path from 'path';
 
 const nextConfig: NextConfig = {
   experimental: {
@@ -6,22 +9,15 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "20mb",
     },
   },
+  // Only use this for development
   async headers() {
     return [
       {
-        source: "/api/:path*",
+        source: '/api/:path*',
         headers: [
-          { key: "Access-Control-Allow-Credentials", value: "true" },
-          { key: "Access-Control-Allow-Origin", value: "*" },
-          {
-            key: "Access-Control-Allow-Methods",
-            value: "GET,DELETE,PATCH,POST,PUT,OPTIONS",
-          },
-          {
-            key: "Access-Control-Allow-Headers",
-            value:
-              "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
-          },
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          { key: 'Access-Control-Allow-Methods', value: 'GET,DELETE,PATCH,POST,PUT,OPTIONS' },
+          { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization' },
         ],
       },
     ];
