@@ -74,14 +74,17 @@ function PlansList() {
     if (isSignedIn) {
       router.push("/account/user/purchase-plan");
     } else {
-      // Open the sign-up sheet
-      router.push("/?form=sign-up");
+      // Show toast notification when user is not signed in
+      toast.error("Please sign in to choose a plan", {
+        duration: 3000,
+        position: "top-center",
+        icon: "🔒",
+      });
       
-      // Find the element that opens the sheet and trigger a click
-      const sheetTriggerElement = document.querySelector('[data-sheet-trigger="true"]');
-      if (sheetTriggerElement instanceof HTMLElement) {
-        sheetTriggerElement.click();
-      }
+      // Redirect to sign-in page after a short delay
+      setTimeout(() => {
+        router.push("/?form=sign-in");
+      }, 1000);
     }
   };
 
