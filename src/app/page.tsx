@@ -15,8 +15,8 @@ import {
   useUser,
   SignOutButton,
 } from "@clerk/nextjs";
-import React, { Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import React, { Suspense, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import PlansList from "./_components/plans-list";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -29,13 +29,10 @@ import {
 } from "@/components/ui/card";
 
 // Create a separate component for parts that use useSearchParams
-function AuthContent({ onSignInComplete }: { onSignInComplete: () => void }) {
-  const searchParams = useSearchParams();
-  const form = searchParams.get("form");
-
+function AuthContent({ onSignInComplete, formType }: { onSignInComplete: () => void; formType: string | null }) {
   return (
     <div className="flex items-center justify-center w-full">
-      {form === "sign-in" ? (
+      {formType === "sign-in" ? (
         <SignIn
           routing="hash"
           signUpUrl="/?form=sign-up"
@@ -150,18 +147,22 @@ function UserProfile({ onClose }: { onClose: () => void }) {
 }
 
 function Homepage() {
-  const [openSheet, setOpenSheet] = React.useState(false);
+  const [openSheet, setOpenSheet] = useState(false);
+  const [formType, setFormType] = useState<string | null>(null);
   const { isSignedIn, isLoaded } = useAuth();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const form = searchParams.get("form");
 
-  React.useEffect(() => {
-    // If form parameter is present, open the sheet
+  // Use this effect to handle URL parameters on the client side
+  useEffect(() => {
+    // Get the form parameter from the URL
+    const params = new URLSearchParams(window.location.search);
+    const form = params.get("form");
+    
     if (form === "sign-in" || form === "sign-up") {
+      setFormType(form);
       setOpenSheet(true);
     }
-  }, [form]);
+  }, []);
 
   const handleSignInComplete = () => {
     router.push("/account");
@@ -200,7 +201,10 @@ function Homepage() {
               </div>
             ) : (
               <Button
-                onClick={() => setOpenSheet(true)}
+                onClick={() => {
+                  setFormType("sign-in");
+                  setOpenSheet(true);
+                }}
                 data-sheet-trigger="true"
                 className="relative overflow-hidden group flex items-center transition-transform hover:scale-105 hover:shadow-lg bg-orange-600 text-sm md:text-base px-3 md:px-4 py-1 md:py-2"
               >
@@ -244,7 +248,7 @@ function Homepage() {
 
           <section
             id="plans"
-            className="py-12 md:py-20 scroll-mt-16 md:scroll-mt-23"
+            className="py-12 md:py-20 scroll-mt-16 md:scroll-mt-20"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-8 md:mb-12 ">
               <span className="relative">
@@ -281,7 +285,10 @@ function Homepage() {
                       </div>
                     }
                   >
-                    <AuthContent onSignInComplete={handleSignInComplete} />
+                    <AuthContent 
+                      onSignInComplete={handleSignInComplete} 
+                      formType={formType}
+                    />
                   </Suspense>
                 ))}
             </div>
