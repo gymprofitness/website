@@ -16,9 +16,6 @@ async function AdminPlansPage() {
     <div>
       <div className="flex justify-between item-centre">
         <PageTitle title="Plans" />
-        <Button>
-          <Link href="/account/admin/plans/add">Add Plan</Link>
-        </Button>
       </div>
       <PlansTable plans={responce.data} />
     </div>

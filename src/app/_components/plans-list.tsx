@@ -4,11 +4,15 @@ import { IPlan } from "@/interfaces";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { Check, Loader2 } from "lucide-react";
+import { useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 function PlansList() {
   const [plans, setPlans] = React.useState<IPlan[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [selectedBillingCycle, setSelectedBillingCycle] = React.useState("monthly");
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
 
   const fetchPlans = async () => {
     try {
@@ -63,6 +67,21 @@ function PlansList() {
         return "year";
       default:
         return "month";
+    }
+  };
+
+  const handleChoosePlan = () => {
+    if (isSignedIn) {
+      router.push("/account/user/purchase-plan");
+    } else {
+      // Open the sign-up sheet
+      router.push("/?form=sign-up");
+      
+      // Find the element that opens the sheet and trigger a click
+      const sheetTriggerElement = document.querySelector('[data-sheet-trigger="true"]');
+      if (sheetTriggerElement instanceof HTMLElement) {
+        sheetTriggerElement.click();
+      }
     }
   };
 
@@ -167,11 +186,14 @@ function PlansList() {
                   </div>
                   
                   {/* CTA Button */}
-                  <button className={`mt-6 w-full py-3 px-4 rounded-lg font-medium transition-colors ${
-                    isPopular 
-                      ? "bg-orange-600 hover:bg-orange-700 text-white" 
-                      : "bg-gray-800 hover:bg-gray-700 text-white border border-gray-700"
-                  }`}>
+                  <button 
+                    onClick={handleChoosePlan}
+                    className={`mt-6 w-full py-3 px-4 rounded-lg font-medium transition-colors ${
+                      isPopular 
+                        ? "bg-orange-600 hover:bg-orange-700 text-white" 
+                        : "bg-gray-800 hover:bg-gray-700 text-white border border-gray-700"
+                    }`}
+                  >
                     Choose Plan
                   </button>
                 </div>

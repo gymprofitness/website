@@ -153,6 +153,15 @@ function Homepage() {
   const [openSheet, setOpenSheet] = React.useState(false);
   const { isSignedIn, isLoaded } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const form = searchParams.get("form");
+
+  React.useEffect(() => {
+    // If form parameter is present, open the sheet
+    if (form === "sign-in" || form === "sign-up") {
+      setOpenSheet(true);
+    }
+  }, [form]);
 
   const handleSignInComplete = () => {
     router.push("/account");
@@ -168,8 +177,8 @@ function Homepage() {
             <b className="text-orange-600">.Fy</b>
           </h1>
 
-          {isLoaded &&
-            (isSignedIn ? (
+          {isLoaded && (
+            isSignedIn ? (
               <div className="flex items-center gap-2 md:gap-4">
                 <Button
                   onClick={() => router.push("/account")}
@@ -192,6 +201,7 @@ function Homepage() {
             ) : (
               <Button
                 onClick={() => setOpenSheet(true)}
+                data-sheet-trigger="true"
                 className="relative overflow-hidden group flex items-center transition-transform hover:scale-105 hover:shadow-lg bg-orange-600 text-sm md:text-base px-3 md:px-4 py-1 md:py-2"
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-orange-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
@@ -203,7 +213,8 @@ function Homepage() {
                   />
                 </span>
               </Button>
-            ))}
+            )
+          )}
         </header>
 
         <main>
@@ -233,9 +244,9 @@ function Homepage() {
 
           <section
             id="plans"
-            className="py-12 md:py-20 scroll-mt-16 md:scroll-mt-20"
+            className="py-12 md:py-20 scroll-mt-16 md:scroll-mt-23"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-8 md:mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-8 md:mb-12 ">
               <span className="relative">
                 Our Plans
                 <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 md:w-20 h-1 bg-orange-500 rounded-full"></span>
