@@ -9,8 +9,6 @@ const isPrivateRoute = createRouteMatcher([
   "/seller(.*)",
   "/account(.*)",
   // Exclude payment callback routes
-  "!/api/payment/success(.*)",
-  "!/api/payment/failure(.*)",
 ]);
 
 
