@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import CustomLayout from "@/custom-layout";
 import { Toaster } from "react-hot-toast";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "TrackyFy",
@@ -31,6 +32,7 @@ export default function RootLayout({
         <body>
           <CustomLayout>{children}</CustomLayout>
           <SpeedInsights />
+          <Analytics />
           <Toaster position="top-center" reverseOrder={false} />
         </body>
       </html>
