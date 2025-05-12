@@ -1,10 +1,10 @@
 "use client";
-import React, { useState, useMemo, Suspense } from "react";
+import React, { useState, useMemo } from "react";
 import { IPlan } from "@/interfaces";
 import dayjs from "dayjs";
 import { Button } from "@/components/ui/button";
 import { Edit2, Trash2, ArrowUpDown, ArrowDown, ArrowUp, Plus, Search } from "lucide-react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Spinner from "@/components/ui/spinner";
 import toast from "react-hot-toast";
 import { deletePlanById } from "@/actions/plans";
@@ -13,34 +13,13 @@ import { Input } from "@/components/ui/input";
 type SortField = "name" | "monthly_price" | "quarterly_price" | "half_yearly_price" | "yearly_price" | "created_at";
 type SortDirection = "asc" | "desc";
 
-// Create a separate component that uses useSearchParams
-function SearchablePlansTable({ plans }: { plans: IPlan[] }) {
+function PlansTable({ plans }: { plans: IPlan[] }) {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [deletingPlanId, setDeletingPlanId] = useState<string | null>(null);
   const [sortField, setSortField] = useState<SortField>("monthly_price");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
-  
-  // Get search query from URL or default to empty string
-  const searchQuery = searchParams.get("search") || "";
-  const [search, setSearch] = useState(searchQuery);
-  
-  // Update URL when search changes
-  const createQueryString = (name: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set(name, value);
-    return params.toString();
-  };
-  
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newSearch = e.target.value;
-    setSearch(newSearch);
-    
-    // Update URL with search param
-    router.push(`${pathname}?${createQueryString("search", newSearch)}`);
-  };
+  const [searchQuery, setSearchQuery] = useState("");
 
   const columns = [
     { key: "name", label: "Name" },
@@ -93,6 +72,7 @@ function SearchablePlansTable({ plans }: { plans: IPlan[] }) {
 
       if (response.success) {
         toast.success(response.message);
+        // Force a hard refresh to get fresh data
         router.refresh();
       } else {
         toast.error(response.message);
@@ -128,8 +108,8 @@ function SearchablePlansTable({ plans }: { plans: IPlan[] }) {
             <Input
               type="text"
               placeholder="Search plans..."
-              value={search}
-              onChange={handleSearch}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full md:w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 pl-10"
             />
             <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -229,20 +209,6 @@ function SearchablePlansTable({ plans }: { plans: IPlan[] }) {
         )}
       </div>
     </div>
-  );
-}
-
-// Main component that wraps the searchable table in a Suspense boundary
-function PlansTable({ plans }: { plans: IPlan[] }) {
-  return (
-    <Suspense fallback={
-      <div className="p-8 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 text-center">
-        <Spinner parentHeight="200px" />
-        <p className="text-gray-500 dark:text-gray-400 mt-4">Loading plans...</p>
-      </div>
-    }>
-      <SearchablePlansTable plans={plans} />
-    </Suspense>
   );
 }
 
