@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, Suspense } from "react";
 import { IPlan } from "@/interfaces";
 import dayjs from "dayjs";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,8 @@ import { Input } from "@/components/ui/input";
 type SortField = "name" | "monthly_price" | "quarterly_price" | "half_yearly_price" | "yearly_price" | "created_at";
 type SortDirection = "asc" | "desc";
 
-function PlansTable({ plans }: { plans: IPlan[] }) {
+// Create a separate component that uses useSearchParams
+function SearchablePlansTable({ plans }: { plans: IPlan[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -228,6 +229,20 @@ function PlansTable({ plans }: { plans: IPlan[] }) {
         )}
       </div>
     </div>
+  );
+}
+
+// Main component that wraps the searchable table in a Suspense boundary
+function PlansTable({ plans }: { plans: IPlan[] }) {
+  return (
+    <Suspense fallback={
+      <div className="p-8 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 text-center">
+        <Spinner parentHeight="200px" />
+        <p className="text-gray-500 dark:text-gray-400 mt-4">Loading plans...</p>
+      </div>
+    }>
+      <SearchablePlansTable plans={plans} />
+    </Suspense>
   );
 }
 
