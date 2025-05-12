@@ -3,21 +3,43 @@ import React, { useState, useMemo } from "react";
 import { IPlan } from "@/interfaces";
 import dayjs from "dayjs";
 import { Button } from "@/components/ui/button";
-import { Edit2, Trash2, ArrowUpDown, ArrowDown, ArrowUp, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Edit2, Trash2, ArrowUpDown, ArrowDown, ArrowUp, Plus, Search } from "lucide-react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Spinner from "@/components/ui/spinner";
 import toast from "react-hot-toast";
 import { deletePlanById } from "@/actions/plans";
+import { Input } from "@/components/ui/input";
 
 type SortField = "name" | "monthly_price" | "quarterly_price" | "half_yearly_price" | "yearly_price" | "created_at";
 type SortDirection = "asc" | "desc";
 
 function PlansTable({ plans }: { plans: IPlan[] }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [deletingPlanId, setDeletingPlanId] = useState<string | null>(null);
   const [sortField, setSortField] = useState<SortField>("monthly_price");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+  
+  // Get search query from URL or default to empty string
+  const searchQuery = searchParams.get("search") || "";
+  const [search, setSearch] = useState(searchQuery);
+  
+  // Update URL when search changes
+  const createQueryString = (name: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set(name, value);
+    return params.toString();
+  };
+  
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearch = e.target.value;
+    setSearch(newSearch);
+    
+    // Update URL with search param
+    router.push(`${pathname}?${createQueryString("search", newSearch)}`);
+  };
 
   const columns = [
     { key: "name", label: "Name" },
@@ -28,8 +50,14 @@ function PlansTable({ plans }: { plans: IPlan[] }) {
     { key: "created_at", label: "Created At" },
   ];
 
-  const sortedPlans = useMemo(() => {
-    return [...plans].sort((a, b) => {
+  const filteredAndSortedPlans = useMemo(() => {
+    // First filter plans by search query
+    const filtered = plans.filter(plan => 
+      plan.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    
+    // Then sort the filtered plans
+    return [...filtered].sort((a, b) => {
       if (sortField === "name") {
         return sortDirection === "asc" 
           ? a.name.localeCompare(b.name) 
@@ -44,7 +72,7 @@ function PlansTable({ plans }: { plans: IPlan[] }) {
           : b[sortField] - a[sortField];
       }
     });
-  }, [plans, sortField, sortDirection]);
+  }, [plans, sortField, sortDirection, searchQuery]);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -94,6 +122,18 @@ function PlansTable({ plans }: { plans: IPlan[] }) {
       )}
       
       <div className="mb-4 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="w-full md:w-auto">
+          <div className="relative">
+            <Input
+              type="text"
+              placeholder="Search plans..."
+              value={search}
+              onChange={handleSearch}
+              className="w-full md:w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 pl-10"
+            />
+            <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          </div>
+        </div>
         <div className="flex flex-wrap gap-3 items-center">
           <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Sort by:</span>
           {columns.map((column) => (
@@ -121,12 +161,14 @@ function PlansTable({ plans }: { plans: IPlan[] }) {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {sortedPlans.length === 0 ? (
+        {filteredAndSortedPlans.length === 0 ? (
           <div className="col-span-full p-8 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 text-center">
-            <p className="text-gray-500 dark:text-gray-400">No plans found</p>
+            <p className="text-gray-500 dark:text-gray-400">
+              {searchQuery ? `No plans found matching "${searchQuery}"` : "No plans found"}
+            </p>
           </div>
         ) : (
-          sortedPlans.map((plan) => (
+          filteredAndSortedPlans.map((plan) => (
             <div 
               key={plan.id}
               className={`relative bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 ${
