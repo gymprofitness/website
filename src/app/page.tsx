@@ -403,7 +403,7 @@ function Homepage() {
 
       {/* Blended Navigation */}
 
-{/*       
+      
       <nav className="relative z-10 py-4 sm:py-6 px-4 sm:px-6 md:px-10 flex justify-between items-center bg-transparent">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold flex items-center group">
           <Logo className="w-8 h-8 sm:w-10 sm:h-10 mr-2 sm:mr-3" />
@@ -413,6 +413,7 @@ function Homepage() {
           </span>
         </h1>
 
+{/* 
         <div className="flex gap-2 sm:gap-3">
           {isLoaded && isSignedIn ? (
             <div className="flex gap-2 sm:gap-3">
@@ -442,10 +443,12 @@ function Homepage() {
             </Button>
           )}
         </div>
-      </nav>
  */}
 
+      </nav>
 
+
+      
 
       {/* Optimized Hero Section for Mobile */}
       <div className="relative z-10 py-8 sm:py-12 md:py-16 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
@@ -483,7 +486,7 @@ function Homepage() {
               ) : (
                 <Button
                   className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transition-all text-white px-4 sm:px-6 py-2 sm:py-4 text-sm sm:text-base shadow-2xl hover:shadow-orange-500/25 min-h-[44px] touch-manipulation"
-                  onClick={handleOpenSheet}
+                  //  onClick={handleOpenSheet}
                 >
                   <Dumbbell className="mr-1 sm:mr-2 h-4 w-4" />
                   <span className="hidden sm:inline">Join </span>Now
