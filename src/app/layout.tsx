@@ -7,8 +7,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
-  title: "TrackyFy",
-  description: "Gym Management System",
+  title: "Profitness Gym",
+  description: "Best Gym of Purnea",
 };
 
 export default function RootLayout({
