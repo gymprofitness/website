@@ -402,6 +402,8 @@ function Homepage() {
       </div>
 
       {/* Blended Navigation */}
+
+{/*       
       <nav className="relative z-10 py-4 sm:py-6 px-4 sm:px-6 md:px-10 flex justify-between items-center bg-transparent">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold flex items-center group">
           <Logo className="w-8 h-8 sm:w-10 sm:h-10 mr-2 sm:mr-3" />
@@ -441,6 +443,9 @@ function Homepage() {
           )}
         </div>
       </nav>
+ */}
+
+
 
       {/* Optimized Hero Section for Mobile */}
       <div className="relative z-10 py-8 sm:py-12 md:py-16 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
