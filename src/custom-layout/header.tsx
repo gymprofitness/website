@@ -15,8 +15,8 @@ function Header({ user }: { user: IUser | null }) {
           {/* Logo - wider layout */}
           <Link href="/" className="flex items-center">
             <h1 className="text-3xl font-bold">
-              <b className="text-white">Tracky</b>
-              <b className="text-orange-600">.Fy</b>
+              <b className="text-white">Pro</b>
+              <b className="text-orange-600">.Fitness</b>
             </h1>
           </Link>
           
