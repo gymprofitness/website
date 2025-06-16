@@ -403,7 +403,6 @@ function Homepage() {
 
       {/* Blended Navigation */}
 
-      
       <nav className="relative z-10 py-4 sm:py-6 px-4 sm:px-6 md:px-10 flex justify-between items-center bg-transparent">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold flex items-center group">
           <Logo className="w-20 h-20 sm:w-20 sm:h-20 mr-2 sm:mr-2" />
@@ -413,7 +412,7 @@ function Homepage() {
           </span>
         </h1>
 
-{/* 
+        {/* 
         <div className="flex gap-2 sm:gap-3">
           {isLoaded && isSignedIn ? (
             <div className="flex gap-2 sm:gap-3">
@@ -444,11 +443,7 @@ function Homepage() {
           )}
         </div>
  */}
-
       </nav>
-
-
-      
 
       {/* Optimized Hero Section for Mobile */}
       <div className="relative z-10 py-8 sm:py-12 md:py-16 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
@@ -469,8 +464,9 @@ function Homepage() {
             </h1>
 
             <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed text-left">
-              The ultimate fitness center management solution. Streamline memberships, 
-              optimize class schedules, and deliver exceptional fitness experiences that keep your members coming back.
+              The ultimate fitness center management solution. Streamline
+              memberships, optimize class schedules, and deliver exceptional
+              fitness experiences that keep your members coming back.
             </p>
 
             {/* Mobile-optimized buttons - smaller and in one line */}
@@ -518,11 +514,11 @@ function Homepage() {
           {/* Optimized hero image section with favicon.svg logo */}
           <div className="flex-1 relative w-full max-w-md mx-auto lg:max-w-none">
             <div className="relative">
-              <div className="w-full h-64 sm:h-80 md:h-96 rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 p-1 shadow-2xl">
-                <div className="w-full h-full rounded-xl bg-gradient-to-br from-orange-500/10 via-red-500/10 to-orange-600/10 overflow-hidden relative backdrop-blur-sm">
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-red-500/20 to-orange-600/20" />
+              <div className="w-full h-64 sm:h-80 md:h-96 rounded-2xl bg-gradient-to-br from-neutral-700 to-stone-900 p-1 shadow-2xl">
+                <div className="w-full h-full rounded-xl bg-gradient-to-br from-neutral-600/10 via-stone-700/10 to-zinc-800/10 overflow-hidden relative backdrop-blur-sm">
+                  <div className="absolute inset-0 bg-gradient-to-br from-neutral-600/20 via-stone-700/20 to-zinc-800/20" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <Logo className="w-32 h-32 sm:w-40 sm:h-40 opacity-80" />
+                    <Logo className="w-36 h-36 sm:w-55 sm:h-55 opacity-80" />
                   </div>
 
                   {/* Optimized floating cards */}
@@ -547,9 +543,9 @@ function Homepage() {
               </div>
 
               {/* Optimized decorative elements */}
-              <div className="absolute -bottom-4 -right-4 w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-orange-500 to-red-500 rounded-full blur-2xl opacity-30 animate-pulse" />
+              <div className="absolute -bottom-4 -right-4 w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-neutral-700 to-stone-900 rounded-full blur-2xl opacity-30 animate-pulse" />
               <div
-                className="absolute -top-4 -left-4 w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-r from-red-500 to-orange-600 rounded-full blur-2xl opacity-20 animate-pulse"
+                className="absolute -top-4 -left-4 w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-r from-stone-700 to-zinc-800 rounded-full blur-2xl opacity-20 animate-pulse"
                 style={{ animationDelay: "1s" }}
               />
             </div>
@@ -587,8 +583,9 @@ function Homepage() {
             Complete Fitness Management Solution
           </h2>
           <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            From member onboarding to advanced analytics, Pro.Fitness provides everything 
-            you need to run a successful fitness center and create exceptional member experiences.
+            From member onboarding to advanced analytics, Pro.Fitness provides
+            everything you need to run a successful fitness center and create
+            exceptional member experiences.
           </p>
         </div>
 
@@ -621,8 +618,9 @@ function Homepage() {
             Choose Your Fitness Journey
           </h2>
           <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Flexible membership options designed to fit your lifestyle and fitness goals. 
-            Start your transformation today with our premium facilities and expert guidance.
+            Flexible membership options designed to fit your lifestyle and
+            fitness goals. Start your transformation today with our premium
+            facilities and expert guidance.
           </p>
         </div>
 
